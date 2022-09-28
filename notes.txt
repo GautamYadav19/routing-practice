@@ -1,0 +1,51 @@
+132 ->relative path mai kya bataya realtive  path ka use hi nahi kara
+133 -> clear dynamic path segment
+xs and sm ek saath use karety hai iska kya mltb hain
+134->users/user ka ander srif hum user/:id /:name use kar rahe hain
+routing mai or user.ts isma humne snapshot.params ka use karke (id,name) mai value li hain
+phir usko print karaya hain Main isma" Active route ka use hoga"
+
+            ---app-routing
+			
+{ path: 'users', component: UsersComponent },
+  { path: 'user/:id/:name', component: ViewUsersComponent },
+                ---view-users.ts
+this.user = {
+      id: this.route.snapshot.params['id'],
+      name: this.route.snapshot.params['name'],
+    };
+CLEAR
+
+135->
+             ---app-routing
+{ path: 'users', component: UsersComponent },
+  { path: 'user/:id/:name', component: ViewUsersComponent },
+             ---view-users.html
+  <a [routerLink]="['/user', 100, 'gautam']">press and then 10 gautam</a>
+             ---view-users.ts
+   this.route.params.subscribe((params: Params) => {
+      this.user.id = params['id'];
+      this.user.name = params['name'];
+    });
+	MAIN->yeh page ko update kar raha hain
+  CLEAR ->yeh iski values ko utha kar html ka page per load kar dega isse phele wala bs
+  url mai dalne ka baad print kar raha tha per ye jo link banaaya hai  isko utha kar kaam kar dega
+  CONFUSE -> subscribe and thoda params ka bare mai padhna hain
+  
+  136-> view-users.ts
+   paramsSubscription!:Subscription;
+   ===============
+   this.paramsSubscription= this.route.params.subscribe((params: Params) => {
+      this.user.id = params['id'];
+      this.user.name = params['name'];
+    });
+	==============
+	 ngOnDestory(){
+    this.paramsSubscription.unsubscribe();
+  }
+  itna samjh aya ki jab link re load hoga tab vo isko save rekhega baki puchna hai sahi se kuch samjh nahi aya
+  isma
+  NOT CLEAR
+  137 ->
+  
+  
